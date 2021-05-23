@@ -17,8 +17,12 @@ spring:
           consumer:
             use-native-decoding: true
             batch-mode: true
-#            auto-commit-offset: false
       kafka:
+        bindings:
+          batch-in-0:
+            consumer:
+              ack-mode: MANUAL
+              auto-commit-offset: false
         binder:
           configuration:
             key:
