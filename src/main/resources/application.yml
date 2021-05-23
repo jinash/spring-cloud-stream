@@ -1,0 +1,59 @@
+spring:
+  cloud:
+    stream:
+      function:
+        definition: supplier;batch
+      bindings:
+        supplier-out-0:
+          destination: batch-in
+          producer:
+            use-native-encoding: true
+#        process-in-0:
+#          destination: avro-in
+#          consumer:
+#            use-native-decoding: true
+        batch-in-0:
+          destination: batch-in
+          consumer:
+            use-native-decoding: true
+            batch-mode: true
+#            auto-commit-offset: false
+      kafka:
+        binder:
+          configuration:
+            key:
+              serializer: org.apache.kafka.common.serialization.StringSerializer
+              deserializer: org.apache.kafka.common.serialization.StringDeserializer
+            value:
+              serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+              deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+          producer-properties:
+            schema:
+              registry:
+                url: http://localhost:8081
+          consumer-properties:
+            schema:
+              registry:
+                url: http://localhost:8081
+            specific:
+              avro:
+                reader: true
+#        streams:
+#          binder:
+#            brokers: localhost:9092,localhost:9093,localhost:9094
+#            auto-create-topics: true
+#            auto-add-partitions: true
+#            min-partition-count: 2
+#            replication-factor: 2
+#            configuration:
+#              schema:
+#                registry:
+#                  url: http://localhost:8081
+#              default:
+#                key:
+#                  serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+#                value:
+#                  serde: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde
+#            functions:
+#              process:
+#                application-id: scl-web

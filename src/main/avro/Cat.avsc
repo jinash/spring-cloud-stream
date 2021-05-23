@@ -1,0 +1,8 @@
+{
+    "namespace": "com.scl.schema",
+    "type": "record",
+    "name": "Cat",
+    "fields" : [
+        {"name": "breed", "type": "string"}
+    ]
+}
